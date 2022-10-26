@@ -1,0 +1,13 @@
+# secrets
+.env
+src/api/auth/clients.js
+
+# dependencies
+node_modules
+
+# misc
+src/jobs/dai-importer-infura.js
+log
+coverage
+.DS_Store
+junk.js
