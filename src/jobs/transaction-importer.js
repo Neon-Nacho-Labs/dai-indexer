@@ -19,7 +19,7 @@ import { Alchemy, Network } from "alchemy-sdk";
 import { saveTransactions } from "../models/transactions.js";
 import { getDaiTransactionsByBlockNumber } from "../utils/helpers.js";
 import { saveDaiEventLog } from "../models/dai-event-logs.js";
-import { DAI_CONTRACT_ADDRESS, EVENT_SIGNATURE_TRANSFER } from "../config/constants.js";
+import { DAI_CONTRACT_ADDRESS, EVENT_SIGNATURE_TRANSFER } from "../common/constants.js";
 import "dotenv/config";
 
 const alchemy = new Alchemy({

@@ -10,7 +10,7 @@ import {
 import { getTransactions, getTransactionsForAddress } from "../models/transactions.js";
 import { getDaiEventLogs, getDaiEventLogsForAddress } from "../models/dai-event-logs.js";
 import { getDaiBalance } from "../models/addresses.js";
-import { RESPONSE_SUCCESS, RESPONSE_BAD_REQUEST, CACHE_TTL_IN_SECONDS, RESPONSE_UNKNOWN_ERROR } from "../config/constants.js";
+import { RESPONSE_SUCCESS, RESPONSE_BAD_REQUEST, CACHE_TTL_IN_SECONDS, RESPONSE_UNKNOWN_ERROR } from "../common/constants.js";
 import { appCache } from "../utils/cache.js";
 
 /**

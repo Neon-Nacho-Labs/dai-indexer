@@ -1,7 +1,7 @@
 import supertest from "supertest";
 import express from "express";
 import { router } from "../src/api/routes.js";
-import { API_BASE_PATH, RATE_LIMIT_REQUESTS_PER_TIME_PERIOD } from "../src/config/constants.js";
+import { API_BASE_PATH, RATE_LIMIT_REQUESTS_PER_TIME_PERIOD } from "../src/common/constants.js";
 import { getCacheKeyRateLimit } from "../src/utils/helpers.js";
 import { appCache } from "../src/utils/cache.js";
 import { dbConnection } from "../src/database/connection.js";

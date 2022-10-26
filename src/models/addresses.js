@@ -1,5 +1,5 @@
 import { Alchemy, Network } from "alchemy-sdk";
-import { DAI_CONTRACT_ADDRESS } from "../config/constants.js";
+import { DAI_CONTRACT_ADDRESS } from "../common/constants.js";
 import "dotenv/config";
 
 const alchemy = new Alchemy({
