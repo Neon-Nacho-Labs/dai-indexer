@@ -1,6 +1,8 @@
+import { IApiClient } from "../../common/types";
+
 // To use, rename this file to client.js and adjust the client ids and keys as needed
 // Eventually this will be stored in the database
-const apiClients = [
+const apiClients: IApiClient[] = [
 	{
 		"client_id": "123",
 		"api_key": "abc123",
