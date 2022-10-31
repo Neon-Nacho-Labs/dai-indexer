@@ -11,3 +11,4 @@ log
 coverage
 .DS_Store
 junk.js
+.vscode

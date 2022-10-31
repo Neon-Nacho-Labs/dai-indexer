@@ -7,12 +7,12 @@ import {
 	getCacheKeyBalances,
 	bytes32ToAddressString,
 	bytes32ToIntString,
-	moveDecimalAndFormat
-} from "../src/utils/helpers.js";
+	moveDecimalAndFormat,
+	getDaiTransactionsByBlockNumber
+} from "../src/utils/helpers.ts";
 import {apiClients} from "../src/api/auth/clients.js";
 import { Alchemy, Network } from "alchemy-sdk";
 import "dotenv/config";
-import { getDaiTransactionsByBlockNumber } from "../src/utils/helpers.js";
 
 describe("helper tests", () => {
 

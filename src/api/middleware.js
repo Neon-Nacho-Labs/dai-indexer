@@ -6,7 +6,7 @@ import {
 	RATE_LIMIT_CACHE_TTL_IN_SECONDS,
 	RATE_LIMIT_REQUESTS_PER_TIME_PERIOD
 } from "../common/constants.js";
-import { getResponseObject, getApiClient, getCacheKeyRateLimit } from "../utils/helpers.js";
+import { getResponseObject, getApiClient, getCacheKeyRateLimit } from "../utils/helpers";
 import { appCache } from "../utils/cache.js";
 
 /**

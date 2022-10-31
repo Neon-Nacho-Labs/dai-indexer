@@ -6,7 +6,7 @@ import {
 	getCacheKeyEventLogs,
 	getCacheKeyEventLogsForAddress,
 	moveDecimalAndFormat
-} from "../utils/helpers.js";
+} from "../utils/helpers";
 import { getTransactions, getTransactionsForAddress } from "../models/transactions.js";
 import { getDaiEventLogs, getDaiEventLogsForAddress } from "../models/dai-event-logs.js";
 import { getDaiBalance } from "../models/addresses.js";

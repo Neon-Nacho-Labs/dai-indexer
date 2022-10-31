@@ -11,7 +11,7 @@ import {
 	getCacheKeyBalances,
 	getCacheKeyEventLogs,
 	getCacheKeyEventLogsForAddress
-} from "../src/utils/helpers.js";
+} from "../src/utils/helpers.ts";
 import { appCache } from "../src/utils/cache.js";
 import httpMocks from "node-mocks-http";
 import { dbConnection } from "../src/database/connection.js";
