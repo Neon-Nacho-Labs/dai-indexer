@@ -14,7 +14,7 @@ import {
 } from "../src/utils/helpers.ts";
 import { appCache } from "../src/utils/cache.js";
 import httpMocks from "node-mocks-http";
-import { dbConnection } from "../src/database/connection.js";
+import { dbConnection } from "../src/database/connection";
 
 /**
  * Some tests use specific addresses that they expect to exist in the database.

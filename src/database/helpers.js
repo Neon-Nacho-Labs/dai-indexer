@@ -1,4 +1,4 @@
-import { dbConnection } from "../database/connection.js";
+import { dbConnection } from "../database/connection";
 
 /**
  * Get a row by id

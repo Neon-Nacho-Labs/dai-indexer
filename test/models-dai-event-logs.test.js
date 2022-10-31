@@ -5,7 +5,7 @@ import {
 	saveDaiEventLog,
 	deleteDaiEventLogById
 } from "../src/models/dai-event-logs.js";
-import { dbConnection } from "../src/database/connection.js";
+import { dbConnection } from "../src/database/connection";
 
 /**
  * Some tests use specific addresses that they expect to exist in the database.

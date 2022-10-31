@@ -1,4 +1,4 @@
-import { dbConnection, MYSQL_TABLE_DAI_EVENT_LOGS } from "../database/connection.js";
+import { dbConnection, MYSQL_TABLE_DAI_EVENT_LOGS } from "../database/connection";
 import { bytes32ToAddressString, bytes32ToIntString, moveDecimalAndFormat } from "../utils/helpers";
 import { getRowById, deleteRowById } from "../database/helpers.js";
 import debug from "debug";

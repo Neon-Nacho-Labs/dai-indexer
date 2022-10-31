@@ -4,7 +4,7 @@ import { router } from "../src/api/routes.js";
 import { API_BASE_PATH, RATE_LIMIT_REQUESTS_PER_TIME_PERIOD } from "../src/common/constants";
 import { getCacheKeyRateLimit } from "../src/utils/helpers.ts";
 import { appCache } from "../src/utils/cache.js";
-import { dbConnection } from "../src/database/connection.js";
+import { dbConnection } from "../src/database/connection";
 
 /**
  * Some tests use specific addresses that they expect to exist in the database.

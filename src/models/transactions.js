@@ -1,4 +1,4 @@
-import { dbConnection, MYSQL_TABLE_TRANSACTIONS } from "../database/connection.js";
+import { dbConnection, MYSQL_TABLE_TRANSACTIONS } from "../database/connection";
 import { getRowById, deleteRowById } from "../database/helpers.js";
 
 /**
