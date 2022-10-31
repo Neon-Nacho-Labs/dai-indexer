@@ -1,6 +1,6 @@
 import { dbConnection, MYSQL_TABLE_DAI_EVENT_LOGS } from "../database/connection";
 import { bytes32ToAddressString, bytes32ToIntString, moveDecimalAndFormat } from "../utils/helpers";
-import { getRowById, deleteRowById } from "../database/helpers.js";
+import { getRowById, deleteRowById } from "../database/helpers";
 import debug from "debug";
 
 const d = debug("model-dai-event-logs");

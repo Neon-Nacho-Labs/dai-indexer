@@ -1,5 +1,5 @@
 import { dbConnection, MYSQL_TABLE_TRANSACTIONS } from "../database/connection";
-import { getRowById, deleteRowById } from "../database/helpers.js";
+import { getRowById, deleteRowById } from "../database/helpers";
 
 /**
  * Get a list of the most recent transactions
