@@ -1,6 +1,6 @@
 # secrets
 .env
-src/api/auth/clients.js
+src/api/auth/clients.ts
 
 # dependencies
 node_modules
