@@ -16,7 +16,7 @@ import {
 	handleEventLogsCall,
 	handleEventLogsForAddressCall
 } from "./handlers.js";
-import { API_BASE_PATH } from "../common/constants.js";
+import { API_BASE_PATH } from "../common/constants";
 
 const router = express.Router();
 
