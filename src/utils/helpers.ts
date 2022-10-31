@@ -1,4 +1,4 @@
-import { apiClients } from "../api/auth/clients.js";
+import { apiClients } from "../api/auth/clients";
 import sha256 from "crypto-js/sha256.js";
 import Base64 from "crypto-js/enc-base64.js";
 import { DAI_CONTRACT_ADDRESS } from "../common/constants";

@@ -10,7 +10,7 @@ import {
 	moveDecimalAndFormat,
 	getDaiTransactionsByBlockNumber
 } from "../src/utils/helpers.ts";
-import {apiClients} from "../src/api/auth/clients.js";
+import {apiClients} from "../src/api/auth/clients";
 import { Alchemy, Network } from "alchemy-sdk";
 import "dotenv/config";
 
