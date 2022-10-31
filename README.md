@@ -21,7 +21,7 @@ I'm a big fan of keeping things simple whenever possible and only introducing ad
 * The main project file is called `app.js` and lives at the root.
 * The transaction import code is in [/src/jobs](https://github.com/Neon-Nacho-Labs/dai-indexer/tree/main/src/jobs).
 * API routes, handlers, and middleware are in [/src/api](https://github.com/Neon-Nacho-Labs/dai-indexer/tree/main/src/api).
-* Application-wide constants are in [/src/common/constants.js](https://github.com/Neon-Nacho-Labs/dai-indexer/blob/main/src/common/constants.js).
+* Application-wide constants are in [/src/common/constants.ts](https://github.com/Neon-Nacho-Labs/dai-indexer/blob/main/src/common/constants.ts).
 * Core database code (connection, schemas, helpers) are in [/src/database](https://github.com/Neon-Nacho-Labs/dai-indexer/tree/main/src/database).
 * Interactions with data (CRUD operations) are handled in [/src/models](https://github.com/Neon-Nacho-Labs/dai-indexer/tree/main/src/models).
 * Some utility functions live under [/src/utils](https://github.com/Neon-Nacho-Labs/dai-indexer/tree/main/src/utils).
