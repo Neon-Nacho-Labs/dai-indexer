@@ -1,4 +1,4 @@
-import { getDaiBalance } from "../src/models/addresses.js";
+import { getDaiBalance } from "../src/models/addresses";
 import { dbConnection } from "../src/database/connection";
 
 /**

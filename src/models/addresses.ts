@@ -1,8 +1,8 @@
-import { Alchemy, Network } from "alchemy-sdk";
+import { Alchemy, Network, TokenBalancesResponse } from "alchemy-sdk";
 import { DAI_CONTRACT_ADDRESS } from "../common/constants";
 import "dotenv/config";
 
-const alchemy = new Alchemy({
+const alchemy: Alchemy = new Alchemy({
 	apiKey: process.env.ALCHEMY_API_KEY,
 	network: Network.ETH_MAINNET,
 });
@@ -14,15 +14,15 @@ const alchemy = new Alchemy({
  * @param {string} address An Ethereum address
  * @returns {string} The Dai balance of the address
  */
-async function getDaiBalance(address) {
-	let balances = await alchemy.core.getTokenBalances(address, [DAI_CONTRACT_ADDRESS]);
+async function getDaiBalance(address: string): Promise<string | boolean> {
+	let balances: TokenBalancesResponse = await alchemy.core.getTokenBalances(address, [DAI_CONTRACT_ADDRESS]);
 
 	if (!balances || !Array.isArray(balances.tokenBalances)) {
 		return false;
 	}
 
 	// Get an integer string from the hex value
-	const intBalanceAsString = BigInt(balances.tokenBalances[0].tokenBalance).toString();
+	const intBalanceAsString: string = BigInt(balances.tokenBalances[0].tokenBalance).toString();
 
 	return intBalanceAsString;
 }
