@@ -37,6 +37,7 @@ A few things to note about the implementation:
 ### Potential Future Improvements
 There are quite a few improvements and areas of further exploration that could be done if I continue working on this application. Here's a list of some that came up during the process of this project, in no particular order:
 
+* Convert to TypeScript (in progress)
 * Logging requests to Elasticsearch and setting up Kibana or something similar to view, query, and analyze the data. Similarly, build an ETL pipeline to process the logs into a more queryable data store and format.
 * More robust API authentication and authorization - maybe using an additional secret or looking into JWT.
 * Also index pending transactions.
@@ -48,14 +49,14 @@ There are quite a few improvements and areas of further exploration that could b
 * Explore storing data in a json MySQL data type then auto-generating the columns from that.
 * Maybe build in some node redundancy to fallback on in the case our default (Alchemy) fails.
 * More robust retry logic when calling external APIs.
-* Further research into causes of duplicate transaction hashes
+* Further research into causes of duplicate transaction hashes.
 * Build in some performance benchmark tests.
 * Look into using the compression module - useful for just an API?
 * Listen for requested media type (JSON) and return specific response if no match.
 * With pagination, also return the total number of results available.
 * Return more descriptive error messages.
 * When testing, mock functions and modules so as not to unnecessarily call the database and external APIs.
-* Set up a mock database rather than relying on production data.
+* Set up a mock database for tests, rather than relying on production data.
 * Use a more robust caching library (eg. Redis).
 * Maybe move caching to middleware.
 
