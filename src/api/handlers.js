@@ -8,7 +8,7 @@ import {
 	moveDecimalAndFormat
 } from "../utils/helpers";
 import { getTransactions, getTransactionsForAddress } from "../models/transactions.js";
-import { getDaiEventLogs, getDaiEventLogsForAddress } from "../models/dai-event-logs.js";
+import { getDaiEventLogs, getDaiEventLogsForAddress } from "../models/dai-event-logs";
 import { getDaiBalance } from "../models/addresses";
 import { RESPONSE_SUCCESS, RESPONSE_BAD_REQUEST, CACHE_TTL_IN_SECONDS, RESPONSE_UNKNOWN_ERROR } from "../common/constants";
 import { appCache } from "../utils/cache.js";

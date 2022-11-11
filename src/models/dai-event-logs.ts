@@ -2,8 +2,10 @@ import { dbConnection, MYSQL_TABLE_DAI_EVENT_LOGS } from "../database/connection
 import { bytes32ToAddressString, bytes32ToIntString, moveDecimalAndFormat } from "../utils/helpers";
 import { getRowById, deleteRowById } from "../database/helpers";
 import debug from "debug";
+import { RowDataPacket, OkPacket, ResultSetHeader } from "mysql2/promise";
+import { IEventLogsReturn, IQueryResultDaiEventLogs, IEthereumEventLog, FormattedEventLog } from "../common/types";
 
-const d = debug("model-dai-event-logs");
+const d: debug.Debugger = debug("model-dai-event-logs");
 
 /**
  * Get a list of Dai event logs
@@ -11,14 +13,14 @@ const d = debug("model-dai-event-logs");
  *
  * @param {number} limit The SQL query limit
  * @param {number} lastId The id returned from the previous page (for pagination)
- * @returns An array of Dai event logs
+ * @returns An array of Dai event logs or null
  */
-async function getDaiEventLogs(limit = 100, lastId = 0) {
+async function getDaiEventLogs(limit: number = 100, lastId: number = 0): Promise<IEventLogsReturn | null> {
 	// Only allow a max of 100 records at a time
 	limit = Math.min(limit, 100);
 
 	// Use a "seek" approach to pagination to avoid the performance issues with using offset
-	let query = `SELECT id, from_address, to_address, raw_value, value, transaction_hash, event_name
+	let query: string = `SELECT id, from_address, to_address, raw_value, value, transaction_hash, event_name
 		FROM ??`;
 
 	// Condition for pages after the first
@@ -28,15 +30,20 @@ async function getDaiEventLogs(limit = 100, lastId = 0) {
 
 	query += " ORDER BY id DESC LIMIT ?";
 
-	const queryValues = [MYSQL_TABLE_DAI_EVENT_LOGS];
+	const queryValues: [string, number?, number?] = [MYSQL_TABLE_DAI_EVENT_LOGS];
 	if (lastId > 0) {
 		queryValues.push(lastId);
 	}
 	queryValues.push(limit);
 
-	let [results] = await dbConnection.query(query, queryValues);
+	let results: IQueryResultDaiEventLogs[] | RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader;
+	[results] = await dbConnection.query(query, queryValues);
 
-	const newLastId = results.length > 0
+	if (! isDaiEventLogsOrEmpty(results)) {
+		return null;
+	}
+
+	const newLastId: number = results.length > 0
 		? results[results.length - 1].id
 		: 0;
 
@@ -53,7 +60,7 @@ async function getDaiEventLogs(limit = 100, lastId = 0) {
  * @param {number} id The unique id of the event log to get
  * @returns The result object
  */
-async function getDaiEventLogById(id) {
+async function getDaiEventLogById(id: number) {
 	return getRowById(MYSQL_TABLE_DAI_EVENT_LOGS, id);
 }
 
@@ -66,16 +73,16 @@ async function getDaiEventLogById(id) {
  * @param {number} lastId The id returned from the previous page (for pagination)
  * @returns An array of Dai event logs by address
  */
-async function getDaiEventLogsForAddress(fromOrTo, address, limit = 100, lastId = 0) {
+async function getDaiEventLogsForAddress(fromOrTo: string, address: string, limit: number = 100, lastId: number = 0): Promise<IEventLogsReturn | null> {
 	if (!["to", "from"].includes(fromOrTo)) {
-		return false;
+		return null;
 	}
 
 	// Only allow a max of 100 records at a time
 	limit = Math.min(limit, 100);
 
 	// Use a "seek" approach to pagination to avoid the performance issues with using offset
-	let query = `SELECT id, from_address, to_address, raw_value, value, transaction_hash, event_name
+	let query: string = `SELECT id, from_address, to_address, raw_value, value, transaction_hash, event_name
 		FROM ??
 		WHERE ?? = ?`;
 
@@ -86,7 +93,7 @@ async function getDaiEventLogsForAddress(fromOrTo, address, limit = 100, lastId 
 
 	query += " ORDER BY id DESC LIMIT ?";
 
-	const queryValues = [
+	const queryValues: [string, string, string, number?, number?] = [
 		MYSQL_TABLE_DAI_EVENT_LOGS,
 		`${fromOrTo}_address`,
 		address
@@ -96,9 +103,14 @@ async function getDaiEventLogsForAddress(fromOrTo, address, limit = 100, lastId 
 	}
 	queryValues.push(limit);
 
-	let [results] = await dbConnection.query(query, queryValues);
+	let results: IQueryResultDaiEventLogs[] | RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader;
+	[results] = await dbConnection.query(query, queryValues);
 
-	const newLastId = results.length > 0
+	if (! isDaiEventLogsOrEmpty(results)) {
+		return null;
+	}
+
+	const newLastId: number = results.length > 0
 		? results[results.length - 1].id
 		: 0;
 
@@ -112,25 +124,29 @@ async function getDaiEventLogsForAddress(fromOrTo, address, limit = 100, lastId 
 /**
  * Save Dai event log
  *
- * @param {Array} log An event log object
- * @returns The query results
+ * @param {IEthereumEventLog} log An event log object
+ * @returns True is successful, false on failure
  */
- async function saveDaiEventLog(log) {
-	const query = `
+ async function saveDaiEventLog(log: IEthereumEventLog): Promise<ResultSetHeader | null> {
+	const query: string = `
 		INSERT INTO ${MYSQL_TABLE_DAI_EVENT_LOGS}
 		(from_address, to_address, raw_value, value, transaction_hash, event_signature, event_name)
 		values ?`;
 
-	const queryValues = formatEventLog(log);
+	const queryValues: FormattedEventLog = formatEventLog(log);
 	if (!queryValues) {
-		return false;
+		return null;
 	}
-
-	const [results] = await dbConnection.query(query, [[queryValues]]);
+	let results: RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader;
+	[results] = await dbConnection.query(query, [[queryValues]]);
 
 	d(results);
 
-	return results;
+	if (! isResultSetHeader(results)) {
+		return null;
+	}
+
+	return results;;
 }
 
 /**
@@ -139,7 +155,7 @@ async function getDaiEventLogsForAddress(fromOrTo, address, limit = 100, lastId 
  * @param {number} id The event log id to delete
  * @returns The query result
  */
- async function deleteDaiEventLogById(id) {
+ async function deleteDaiEventLogById(id: number): Promise<RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader> {
 	return deleteRowById(MYSQL_TABLE_DAI_EVENT_LOGS, id);
 }
 
@@ -149,14 +165,14 @@ async function getDaiEventLogsForAddress(fromOrTo, address, limit = 100, lastId 
  * @param {object} log An event log as returned from an Ethereum node
  * @returns An array formatted for an SQL query or false on failure
  */
-function formatEventLog(log) {
+function formatEventLog(log: IEthereumEventLog): FormattedEventLog | null {
 	if (
 		!Array.isArray(log.topics)
 		|| log.topics.length !== 3
 		|| !log.data
 		|| !log.transactionHash
 	) {
-		return false;
+		return null;
 	}
 
 	const intValue = bytes32ToIntString(log.data);
@@ -170,6 +186,41 @@ function formatEventLog(log) {
 		log.topics[0],
 		"Transfer" // hard code for now – we're only storing transfer events
 	];
+}
+
+/**
+ * Type guard to check for the IQueryResultDaiEventLogs[] type
+ *
+ * @param {mixed} result The result to check
+ * @returns True if result is the expected type, false otherwise
+ */
+function isDaiEventLogsOrEmpty(
+	result: IQueryResultDaiEventLogs[] | RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader
+): result is IQueryResultDaiEventLogs[] {
+	let resultCasted: IQueryResultDaiEventLogs[] = result as IQueryResultDaiEventLogs[];
+	if(resultCasted.length === 0 || resultCasted[0].id !== undefined) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Type guard to check for the ResultSetHeader
+ *
+ * @param {mixed} result The result to check
+ * @returns True if result is the expected type, false otherwise
+ */
+ function isResultSetHeader(
+	result: RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader
+): result is ResultSetHeader {
+	let resultCasted: ResultSetHeader = result as ResultSetHeader;
+
+	if("affectedRows" in resultCasted) {
+		return true;
+	}
+
+	return false;
 }
 
 export {

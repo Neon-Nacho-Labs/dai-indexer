@@ -4,7 +4,7 @@ import {
 	getDaiEventLogById,
 	saveDaiEventLog,
 	deleteDaiEventLogById
-} from "../src/models/dai-event-logs.js";
+} from "../src/models/dai-event-logs";
 import { dbConnection } from "../src/database/connection";
 
 /**
@@ -85,10 +85,10 @@ describe("transactions tests", () => {
 		expect(results.eventLogs[0].to_address).toBe("0xE592427A0AEce92De3Edee1F18E0157C05861564");
 	});
 
-	test("getting event logs for address with invalid fromOrTo returns false", async () => {
+	test("getting event logs for address with invalid fromOrTo returns null", async () => {
 		const results = await getDaiEventLogsForAddress("invalid", "0xE592427A0AEce92De3Edee1F18E0157C05861564", 1);
 
-		expect(results).toBe(false);
+		expect(results).toBe(null);
 	});
 
 	test("saving event logs saves row", async () => {

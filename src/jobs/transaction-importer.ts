@@ -18,11 +18,16 @@
 import { Alchemy, Network } from "alchemy-sdk";
 import { saveTransactions } from "../models/transactions.js";
 import { getDaiTransactionsByBlockNumber } from "../utils/helpers";
-import { saveDaiEventLog } from "../models/dai-event-logs.js";
+import { saveDaiEventLog } from "../models/dai-event-logs";
 import { DAI_CONTRACT_ADDRESS, EVENT_SIGNATURE_TRANSFER } from "../common/constants";
+import { IEventLogSubscriptionFilter, IEthereumEventLog } from "../common/types";
+import { TransactionResponse } from "@ethersproject/abstract-provider";
 import "dotenv/config";
+import debug from "debug";
 
-const alchemy = new Alchemy({
+const d: debug.Debugger = debug("transaction-importer");
+
+const alchemy: Alchemy = new Alchemy({
 	apiKey: process.env.ALCHEMY_API_KEY,
 	network: Network.ETH_MAINNET,
 });
@@ -30,9 +35,9 @@ const alchemy = new Alchemy({
 /**
  * Subscription to new blocks on Ethereum mainnet
  */
-alchemy.ws.on("block", (blockNumber) => {
+alchemy.ws.on("block", (blockNumber: number) => {
 	// Get all Dai transaction in the block
-	getDaiTransactionsByBlockNumber(blockNumber, alchemy).then(transactions => {
+	getDaiTransactionsByBlockNumber(blockNumber, alchemy).then((transactions: TransactionResponse[]): void => {
 		if (transactions.length < 1 ) {
 			// No Dai transactions in block, move on
 			return;
@@ -43,7 +48,7 @@ alchemy.ws.on("block", (blockNumber) => {
 	});
 });
 
-const filter = {
+const filter: IEventLogSubscriptionFilter = {
 	address: DAI_CONTRACT_ADDRESS,
 	topics: [
 		EVENT_SIGNATURE_TRANSFER
@@ -53,7 +58,7 @@ const filter = {
 /**
  * Subscribe to Transfer() events from the Dai contract
  */
-alchemy.ws.on(filter, (log) => {
+alchemy.ws.on(filter, (log: IEthereumEventLog) => {
 	// Emitted whenever a DAI token transfer occurs
 	saveDaiEventLog(log);
 });

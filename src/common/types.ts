@@ -27,8 +27,45 @@ interface IApiClient {
 	api_key: string,
 }
 
+interface IEventLogsReturn {
+	"eventLogs": IQueryResultDaiEventLogs[],
+	"count": number,
+	"lastId": number
+}
+
+interface IEthereumEventLog {
+	blockNumber: number,
+	blockHash: string,
+	transactionIndex: number,
+	removed: boolean,
+	address: string,
+	data: string,
+	topics: string[],
+	transactionHash: string,
+	logIndex: number
+}
+
+interface IEventLogSubscriptionFilter {
+	address: string,
+	topics: string[]
+}
+
+type FormattedEventLog = [
+	string,
+	string,
+	string,
+	string,
+	string,
+	string,
+	"Transfer" // we're only storing transfer events for now
+];
+
 export {
 	IQueryResultDaiEventLogs,
 	IQueryResultTransactions,
-	IApiClient
+	IApiClient,
+	IEventLogsReturn,
+	IEthereumEventLog,
+	IEventLogSubscriptionFilter,
+	FormattedEventLog
 }

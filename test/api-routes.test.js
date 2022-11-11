@@ -115,12 +115,12 @@ describe("api route e2e tests", () => {
 	 * Balances tests
 	 */
 
-	test("calling /balances with invalid address returns 400", async () => {
+	test("calling /balances with invalid address returns 0 balance", async () => {
 		const res = await supertest(app)
 			.get(API_BASE_PATH + "/balances/0x1234567")
 			.set("X-API-KEY", TEST_API_KEY);
 
-		expect(res.statusCode).toBe(400);
+		expect(res._body.results.dai_balance).toBe("0");
 	});
 
 	/*

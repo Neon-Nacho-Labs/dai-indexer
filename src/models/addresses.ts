@@ -14,11 +14,11 @@ const alchemy: Alchemy = new Alchemy({
  * @param {string} address An Ethereum address
  * @returns {string} The Dai balance of the address
  */
-async function getDaiBalance(address: string): Promise<string | boolean> {
+async function getDaiBalance(address: string): Promise<string | null> {
 	let balances: TokenBalancesResponse = await alchemy.core.getTokenBalances(address, [DAI_CONTRACT_ADDRESS]);
 
 	if (!balances || !Array.isArray(balances.tokenBalances)) {
-		return false;
+		return null;
 	}
 
 	// Get an integer string from the hex value
