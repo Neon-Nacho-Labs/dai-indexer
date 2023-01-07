@@ -38,6 +38,7 @@ A few things to note about the implementation:
 There are quite a few improvements and areas of further exploration that could be done if I continue working on this application. Here's a list of some that came up during the process of this project, in no particular order:
 
 * Convert to TypeScript (in progress)
+* Continue abstracting out SQL queries into separate functions.
 * Logging requests to Elasticsearch and setting up Kibana or something similar to view, query, and analyze the data. Similarly, build an ETL pipeline to process the logs into a more queryable data store and format.
 * More robust API authentication and authorization - maybe using an additional secret or looking into JWT.
 * Also index pending transactions.
